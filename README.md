@@ -1,46 +1,8 @@
-# Blergh
+# BookMingle
 
-
-
-## Requirements:
-
-
-
-## Currently Working On:
-
-
-
-## Remaining Features:
-
-
-
-## Stretch Goals:
-
-
-
-## Completed Features:
-
-
-
-## Data Structure:
-
-
-## Sprint List (newest at top):
-
+A blind dating app for books that accepts user keywords or themes and returns a list of book descriptions (but no covers, titles, or authors) that match those keywords. When a user selects a book to "date" they are taken to the page on Goodreads.
 
 ## To Run
-
-[Delete what isn't necessary]
-
-Grunt Apps
-
-1. Clone the repo.
-2. From the command line, cd into the /src directory.
-3. Type ```grunt``` into the command line.
-4. Open a second terminal and cd into the /src directory.
-5. Type ```hs -o``` into the command line.
-
-Django Apps
 
 1. Clone the repo.
 2. From the command line, cd into the root directory (wherever the manage.py file is located).
