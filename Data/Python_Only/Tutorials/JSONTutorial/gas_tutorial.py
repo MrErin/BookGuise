@@ -6,6 +6,9 @@ from datetime import datetime
 
 DATE_FORMAT = '%Y-%m-%d'
 
+database = "Data/Python_Only/Tutorials/JSONTutorial/GasPrices.db"
+rawfile = 'Data/Python_Only/Tutorials/JSONTutorial/gas_tutorial_data.json'
+
 
 class GasPrices():
     def __init__(self, json_dict, type_of_gas, normal=True):
@@ -45,7 +48,7 @@ class Country():
         return(self.country)
 
     def save_to_database(self):
-        con = sqlite3.connect("Python_Only/GasTutorial/GasPrices.db")
+        con = sqlite3.connect(database)
         with con:
             cur = con.cursor()
             con.row_factory = sqlite3.Row
@@ -230,7 +233,7 @@ class Country():
                             )
 
 
-with open('Python_Only/GasTutorial/gas_tutorial_data.json') as file:
+with open(rawfile) as file:
     data = json.load(file)
 
 # this line is required to tell the DB which object is the outermost layer

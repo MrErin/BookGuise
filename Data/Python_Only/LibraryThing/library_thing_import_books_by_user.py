@@ -2,6 +2,9 @@ import json
 import sqlite3
 
 
+database = "Data/DataFiles/DataImports.db"
+
+
 class Books():
     """Creates a class for the collection of data for an individual user's books imported from LibraryThing.
     Field List:
@@ -78,8 +81,7 @@ class LT_User():
         """Saves the records to the indicated SQLite database
         """
 
-        con = sqlite3.connect(
-            "Data/Python_Only/LibraryThing/LibraryThingImports.db")
+        con = sqlite3.connect(database)
         with con:
             cur = con.cursor()
             con.row_factory = sqlite3.Row
@@ -118,8 +120,7 @@ class LT_User():
         """Saves user tags for a specific book to the database on the LT_Books_User_Tags table
         """
 
-        con = sqlite3.connect(
-            "Data/Python_Only/LibraryThing/LibraryThingImports.db")
+        con = sqlite3.connect(database)
         with con:
             cur = con.cursor()
             con.row_factory = sqlite3.Row
@@ -144,8 +145,7 @@ class LT_User():
         """Saves user collections for a specific book to the database on the LT_Books_User_Collections table
         """
 
-        con = sqlite3.connect(
-            "Data/Python_Only/LibraryThing/LibraryThingImports.db")
+        con = sqlite3.connect(database)
         with con:
             cur = con.cursor()
             con.row_factory = sqlite3.Row
@@ -186,6 +186,13 @@ files["e-zReader"] = [
 
 files["purpleprincess1311"] = [
     'Data/DataFiles/purpleprincess_100.json',
+]
+
+files["cctesttc1"] = [
+    'Data/DataFiles/cctesttc1_25k.json',
+    'Data/DataFiles/cctesttc1_25k2.json',
+    'Data/DataFiles/cctesttc1_25k3.json',
+    'Data/DataFiles/cctesttc1_25k4.json',
 ]
 
 for user in files:
