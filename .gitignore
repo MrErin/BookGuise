@@ -60,4 +60,4 @@ _codeLibrary
 scratch/
 config.js
 notes.md
-*.json
+DataFiles/

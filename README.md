@@ -1,6 +1,6 @@
 # BookMingle
 
-A blind dating app for books that accepts user keywords or themes and returns a list of book descriptions (but no covers, titles, or authors) that match those keywords. When a user selects a book to "date" they are taken to the page on Goodreads.
+A blind dating app for books that accepts user keywords or themes and returns a list of book descriptions (but no covers, titles, or authors) that match those keywords. When a user selects a book to "date", the cover and title are revealed. The app merges user-generated data from the Goodreads, LibraryThing, and Amazon book APIs, along with the Words API to find synonyms and parts of speech when generating the book descriptions.
 
 ## To Run
 
