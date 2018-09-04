@@ -79,7 +79,7 @@ class LT_User():
         """
 
         con = sqlite3.connect(
-            "Python_Only/LibraryThing/LibraryThingImports.db")
+            "Data/Python_Only/LibraryThing/LibraryThingImports.db")
         with con:
             cur = con.cursor()
             con.row_factory = sqlite3.Row
@@ -119,7 +119,7 @@ class LT_User():
         """
 
         con = sqlite3.connect(
-            "Python_Only/LibraryThing/LibraryThingImports.db")
+            "Data/Python_Only/LibraryThing/LibraryThingImports.db")
         with con:
             cur = con.cursor()
             con.row_factory = sqlite3.Row
@@ -145,7 +145,7 @@ class LT_User():
         """
 
         con = sqlite3.connect(
-            "Python_Only/LibraryThing/LibraryThingImports.db")
+            "Data/Python_Only/LibraryThing/LibraryThingImports.db")
         with con:
             cur = con.cursor()
             con.row_factory = sqlite3.Row
@@ -174,18 +174,18 @@ class LT_User():
 files = dict()
 
 files["Adolf_Ledesma"] = [
-    'Python_Only/LibraryThing/Adolf_Ledesma_10k.json',
-    'Python_Only/LibraryThing/Adolf_Ledesma_20k.json',
-    'Python_Only/LibraryThing/Adolf_Ledesma_20k2.json'
+    'Data/DataFiles/Adolf_Ledesma_10k.json',
+    'Data/DataFiles/Adolf_Ledesma_20k.json',
+    'Data/DataFiles/Adolf_Ledesma_20k2.json'
 ]
 files["e-zReader"] = [
-    'Python_Only/LibraryThing/e-zReader_20k.json',
-    'Python_Only/LibraryThing/e-zReader_20k2.json',
-    'Python_Only/LibraryThing/e-zReader_20k3.json'
+    'Data/DataFiles/e-zReader_20k.json',
+    'Data/DataFiles/e-zReader_20k2.json',
+    'Data/DataFiles/e-zReader_20k3.json'
 ]
 
 files["purpleprincess1311"] = [
-    'Python_Only/LibraryThing/purpleprincess_100.json',
+    'Data/DataFiles/purpleprincess_100.json',
 ]
 
 for user in files:
