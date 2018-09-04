@@ -59,3 +59,5 @@ obj
 _codeLibrary
 scratch/
 config.js
+notes.md
+*.json
