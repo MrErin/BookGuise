@@ -1,8 +1,7 @@
 <GoodreadsResponse>
     <Request>
         <authentication>true</authentication>
-        <key>
-            <![CDATA[ yytEpK6z95PgQO1rClApw ]]>
+        <key>akey
         </key>
         <method>
             <![CDATA[ book_isbn ]]>

@@ -25,6 +25,8 @@ def test():
         for popularshelves in child:
             for shelf in popularshelves:
                 print(shelf.attrib["name"], shelf.attrib["count"])
+        for neighbor in child.iter('neighbor'):
+                print(neighbor.attrib)
     print(root.tag)
     print(root[0][1].text)
 

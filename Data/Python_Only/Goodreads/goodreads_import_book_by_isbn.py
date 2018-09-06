@@ -34,9 +34,10 @@ class GoodReads_Book_Tags():
         # self.book_cover_URL = json_dict[lt_id]["cover"]
         # if ("tags" in json_dict[lt_id]):
         #     self.user_tags = json_dict[lt_id]["tags"]
-        self.gr_id = ''
-        self.isbn = ''
-        self.isbn13 = ''
+        book_tags = root.find("book")
+        self.gr_id = book_tags.find("id").text
+        self.isbn = book_tags.find("isbn").text
+        self.isbn13 = book_tags.find("isbn13").text
         self.shelf_name = ''
         self.shelf_count = ''
 
@@ -45,8 +46,11 @@ class GoodReads_Book_Tags():
             f'{self.gr_id}, {self.isbn}, {self.isbn13}, {self.shelf_name}, {self.shelf_count}')
 
     def test():
-        for child in root:
-            print(child.tag, child.attrib)
+        book_tags = root.find("book")
+        gr_id = book_tags.find("id").text
+        isbn = book_tags.find("isbn").text
+        isbn13 = book_tags.find("isbn13").text
+        print(gr_id, isbn, isbn13)
 
     # def save_popular_shelves_to_database(self):
     #     """saves the popular shelf data to the database"""
