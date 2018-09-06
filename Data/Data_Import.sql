@@ -54,5 +54,5 @@ CREATE TABLE 'GR_Popular_Shelves'
     'isbn' TEXT,
     'isbn13' TEXT,
     'gr_shelf_name' TEXT,
-    'gr_self_count' INTEGER
+    'gr_shelf_count' INTEGER
 )
