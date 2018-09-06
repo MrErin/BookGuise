@@ -12,10 +12,21 @@ root = tree.getroot()
 # alternative setup:
 # root = ET.fromstring(sample_as_string)
 
+# root.findall("./country/neighbor")
+# for country in root.findall('country'):
+#   rank = country.find('rank').text
+#   name = country.get('name')
+#   print(name, rank)
+
 
 def test():
     for child in root:
         print(child.tag, child.attrib)
+        for popularshelves in child:
+            for shelf in popularshelves:
+                print(shelf.attrib["name"], shelf.attrib["count"])
+        for neighbor in child.iter('neighbor'):
+                print(neighbor.attrib)
     print(root.tag)
     print(root[0][1].text)
 
