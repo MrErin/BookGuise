@@ -4,25 +4,25 @@ import requests
 import sqlite3
 
 database = "Data/DataFiles/DataImports.db"
-# with open('Data/DataFiles/config.json', 'r') as file:
-#     config = json.load(file)
+with open('Data/DataFiles/config.json', 'r') as file:
+    config = json.load(file)
 
 # print(config['NYT_key'])
 
 # https://www.goodreads.com/book/isbn/0441172717?key= + devkey
 
 current_isbn = '0441172717'
-# dev_key = config['Goodreads_key']
-# goodreads_request = "https://www.goodreads.com/book/isbn/{0}?key={1}".format(
-#     current_isbn, dev_key)
+dev_key = config['Goodreads_key']
+goodreads_request = "https://www.goodreads.com/book/isbn/{0}?key={1}".format(
+    current_isbn, dev_key)
 
 # print(goodreads_request)
 
-# response = requests.get(goodreads_request)
-# root = ET.fromstring(response.content)
+response = requests.get(goodreads_request)
+root = ET.fromstring(response.content)
 
-tree = ET.parse('Data/Python_Only/Goodreads/sample.xml')
-root = tree.getroot()
+# tree = ET.parse('Data/Python_Only/Goodreads/sample.xml')
+# root = tree.getroot()
 
 
 class GoodReads_Book_Tags():
@@ -66,22 +66,8 @@ class GoodReads_Book_Tags():
         print(
             f'Goodreads ID: {self.gr_id}, ISBN: {self.isbn}, ISBN13: {self.isbn13}, Shelf Name: {self.shelf_name}, Shelf Count: {self.shelf_count}')
 
-    # def test():
-    #     book_tags = root.find("book")
-    #     shelf_tag = book_tags.find("popular_shelves")
-    #     gr_id = book_tags.find("id").text.strip()
-    #     isbn = book_tags.find("isbn").text.strip()
-    #     isbn13 = book_tags.find("isbn13").text.strip()
-    #     for shelf in shelf_tag.iter("shelf"):
-    #         shelf_name = shelf.attrib["name"]
-    #         shelf_count = shelf.attrib["count"]
-    #         print(
-    #             f'Goodreads ID: {gr_id}, ISBN: {isbn}, ISBN13: {isbn13}, Shelf Name: {shelf_name}, Shelf Count: {shelf_count}')
-
     def save_popular_shelves_to_database(self):
         """saves the popular shelf data to the database"""
 
 
-# GoodReads_Book_Tags(current_isbn)
 GoodReads_Book_Tags(current_isbn)
-# GoodReads_Book_Tags.test()
