@@ -6,12 +6,21 @@
         <gdppc>141100</gdppc>
         <neighbor name="Austria" direction="E"/>
         <neighbor name="Switzerland" direction="W"/>
+        <popular_shelves>
+            <shelf name="owned" count="1540"/>
+            <shelf name="classic" count="556"/>
+        </popular_shelves>
+    
     </country>
     <country name="Singapore">
         <rank>4</rank>
         <year>2011</year>
         <gdppc>59900</gdppc>
         <neighbor name="Malaysia" direction="N"/>
+        <popular_shelves>
+            <shelf name="favorites" count="6347"/>
+            <shelf name="fiction" count="4925"/>
+        </popular_shelves>
     </country>
     <country name="Panama">
         <rank>68</rank>
@@ -19,5 +28,9 @@
         <gdppc>13600</gdppc>
         <neighbor name="Costa Rica" direction="W"/>
         <neighbor name="Colombia" direction="E"/>
+        <popular_shelves>
+            <shelf name="owned-books" count="293"/>
+            <shelf name="science-fiction-fantasy" count="290"/>
+        </popular_shelves>
     </country>
 </data>
