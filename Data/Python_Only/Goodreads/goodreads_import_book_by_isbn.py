@@ -4,8 +4,8 @@ import requests
 import sqlite3
 
 database = "Data/DataFiles/DataImports.db"
-with open('Data/DataFiles/config.json', 'r') as file:
-    config = json.load(file)
+with open('Data/DataFiles/config.json', 'r') as config_file:
+    config = json.load(config_file)
 
 # print(config['NYT_key'])
 
