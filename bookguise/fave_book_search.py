@@ -23,13 +23,12 @@ def find_fave(title_input):
     book_root = root.find("book")
 
     fave_book = dict()
-    fave_book["gr_id"] = book_root.find("id").text.strip()
-
-    if (book_root.find("isbn").text != ''):
-        fave_book["isbn"] = book_root.find("isbn").text.strip()
-    else:
-        fave_book["isbn"] = ''
-    fave_book["isbn13"] = book_root.find("isbn13").text.strip()
+    fave_book["gr_id"] = book_root.find("id").text
+    if not book_root.find("isbn") is None:
+        fave_book["isbn"] = book_root.find("isbn").text
+    if not book_root.find("isbn13") is None:
+        fave_book["isbn13"] = book_root.find("isbn13").text
+    fave_book["work_id"] = book_root.find("work").find("id").text
     fave_book["title"] = book_root.find("title").text
     print(fave_book)
 
@@ -39,4 +38,7 @@ def find_fave(title_input):
     # return fave_book
 
 
+find_fave('Hound of the Baskervilles')
 find_fave('The Sun Also Rises')
+# Goodreads API automatically sends general requests to the first novel in the series. Yay!
+find_fave('Dresden Files')
