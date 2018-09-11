@@ -1,6 +1,10 @@
-# BookMingle
+# Book Guise
 
-A blind dating app for books that accepts user keywords or themes and returns a list of book descriptions (but no covers, titles, or authors) that match those keywords. When a user selects a book to "date", the cover and title are revealed. The app merges user-generated data from the Goodreads, LibraryThing, and Amazon book APIs, along with the Words API to find synonyms and parts of speech when generating the book descriptions.
+My app will suggest new books to read by allowing the user to input a title of a known favorite book and suggesting similar works. The resulting list of books will be presented with no cover, title, or author; instead each suggested book will have its own list of keywords or (as a stretch goal) an automatically generated description of the book as if the description is a posting on a dating website.
+
+Example: Frankenstein might have as its keywords, “gothic,” “victorian,” “horror,” “science fiction,” etc. If I’m able to implement the stretch goal of automatically generated book descriptions, the book’s description might read, “I like to wear a lot of black. I can be very formal in public but you know there are interesting things happening behind closed doors. Suitors must relish the unseemly and face grotesquery without fear.”
+
+The app merges user-generated data from the Goodreads and LibraryThing APIs, and uses Django and Python.
 
 ## To Run
 

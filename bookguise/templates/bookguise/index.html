@@ -1,0 +1,21 @@
+{% load static %}
+
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>BookGuise, the masquerade party for books</title>
+</head>
+
+<body>
+    <h1>Welcome to BookGuise</h1>
+    {% block search_bar %}{% include 'bookguise/search_bar.html' %}{% endblock %}
+
+    {% block result_list %}{% include 'bookguise/result_list.html' %}{% endblock %}
+
+</body>
+
+</html>

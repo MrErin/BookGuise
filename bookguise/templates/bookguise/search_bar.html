@@ -1,0 +1,18 @@
+{% block search_bar %}
+<div>
+    <form id="fave_book_search_form" method="post" action="{% url 'bookguise:fave_book_search' %}">
+        {% csrf_token %}
+        <input type="text" size="50" name="title_input" value="" id="title_input" />
+        <input type="submit" value="Search" name="submit" />
+        <br />
+    </form>
+</div>
+{% if fave_result %}
+<div>
+    <ol>
+        <li>{{fave_result.gr_id}}</li>
+        <li>{{fave_result.title}}</li>
+    </ol>
+</div>
+{% endif %}
+{% endblock %}
