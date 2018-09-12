@@ -40,9 +40,10 @@ def build_suggested_book(book_title):
                 if shelf.attrib["name"] not in exclusions:
                     try:
                         shelf.attrib["name"].encode('ascii')
-                        new_keyword = dict(
-                            [(shelf.attrib["name"], int(shelf.attrib["count"]))])
-                        suggested_book["keywords"].append(new_keyword)
+                        print(shelf.attrib["name"])
+                        # new_keyword = dict(
+                        #     [(shelf.attrib["name"], int(shelf.attrib["count"]))])
+                        # suggested_book["keywords"].append(new_keyword)
                     except UnicodeEncodeError:
                         pass
 
@@ -61,4 +62,5 @@ def build_suggested_book(book_title):
 
 
 if __name__ == '__main__':
-    build_suggested_book('Tom Sawyer')
+    build_suggested_book(
+        'DEAR IJEAWELE, OR A FEMINIST MANIFESTO IN FIFTEEN SUGGESTIONS')
