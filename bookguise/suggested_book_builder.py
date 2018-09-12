@@ -31,19 +31,25 @@ def build_suggested_book(book_title):
         if not book_root.find("isbn13") is None:
             suggested_book["isbn13"] = book_root.find("isbn13").text
         suggested_book["title"] = book_root.find("title").text
+        suggested_book["publication_year"] = book_root.find(
+            "publication_year").text
+        suggested_book["gr_link"] = book_root.find("link").text
         suggested_book["keywords"] = list()
         if not book_root.find("popular_shelves") is None:
             for shelf in book_root.find("popular_shelves").iter("shelf"):
                 if shelf.attrib["name"] not in exclusions:
-                    # print(shelf.attrib["name"], shelf.attrib["count"])
+                    try:
+                        shelf.attrib["name"].encode('ascii')
+                        new_keyword = dict(
+                            [(shelf.attrib["name"], int(shelf.attrib["count"]))])
+                        suggested_book["keywords"].append(new_keyword)
+                    except UnicodeEncodeError:
+                        pass
 
-                    #! need to figure out how to add the keywords and counts as dictionary entries to the list
-                    suggested_book["keywords"].append([shelf.attrib["name"]]=shelf.attrib["count"])
-
-        # if __name__ == '__main__':
-        #     print(goodreads_request)
-        #     print(librarything_request)
-        #     print(suggested_book)
+        if __name__ == '__main__':
+            print(goodreads_request)
+            print(librarything_request)
+            print(suggested_book)
         else:
             return suggested_book
 
@@ -55,4 +61,4 @@ def build_suggested_book(book_title):
 
 
 if __name__ == '__main__':
-    build_suggested_book('Narnia')
+    build_suggested_book('Tom Sawyer')
