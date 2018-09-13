@@ -12,7 +12,6 @@ def find_fave(title_input):
 
     dev_key = config['Goodreads_key']
 
-    # TODO: figure out what other substitutions to make such as apostrophes and other special characters
     title_format = title_input.replace(' ', '+')
     goodreads_request = "https://www.goodreads.com/book/title.xml?&key={0}&title={1}".format(
         dev_key, title_format)
@@ -30,6 +29,12 @@ def find_fave(title_input):
             fave_book["isbn13"] = book_root.find("isbn13").text
         fave_book["work_id"] = book_root.find("work").find("id").text
         fave_book["title"] = book_root.find("title").text
+        fave_book["similar_titles"] = list()
+        if not book_root.find("similar_books") is None:
+            for book in book_root.find("similar_books"):
+                fave_book["similar_titles"].append(book.find("title").text)
+        else:
+            fave_book["similar_titles"].append("No similar titles")
 
         if __name__ == '__main__':
             print(goodreads_request)
@@ -45,6 +50,7 @@ def find_fave(title_input):
 
 if __name__ == "__main__":
     find_fave('Hound of the Baskervilles')
+    # Tests not having an ISBN (because there are so many different editions of this one)
     find_fave('The Sun Also Rises')
     # Goodreads API automatically sends general requests to the first novel in the series. Yay!
     find_fave('Dresden Files')
