@@ -1,4 +1,4 @@
-exclusion_keywords = [
+exclusion_keywords = {
     '1001',
     '1920',
     '1930',
@@ -665,4 +665,4 @@ exclusion_keywords = [
     'wishlist',
     'wish-list',
 
-]
+}
