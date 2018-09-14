@@ -52,10 +52,17 @@ class Suggested_Book():
 
             lt_response = requests.get(librarything_request)
             lt_root = ET.fromstring(lt_response.content)
-            lt_book_root = lt_root.tag("ltml")
-            self.lt_id = lt_root.attrib["version"]
 
-            # self.lt_id = lt_book_root.find("item").attrib["id"]
+            # !!Prepare for some magic:
+            # https://stackoverflow.com/questions/37586536/lxml-doc-find-returning-none
+
+            # According to the "Your target element is in the default namespace" answer in the SO link above, this is what I've done:
+            # Create a new dictionary that has an arbitrary key for naming the document and as its value, the "ltml xmlns" value from the xml document
+            namespace = {'xml_document': 'http://www.librarything.com/'}
+
+            # set the new root to be a find for my newly created namespace
+            lt_book_root = lt_root.find('.//xml_document:title', namespace)
+            # print('Book Root:', lt_book_root.text)
 
         except:
             print('The goodreads request was: ', goodreads_request)
@@ -71,6 +78,7 @@ class Suggested_Book():
         # print('Goodreads Link: ', self.gr_link)
         # print('Keywords: ', self.keywords)
         print('LibraryThing ID: ', self.lt_id)
+        # pass
 
 
 if __name__ == '__main__':
