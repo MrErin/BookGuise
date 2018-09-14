@@ -61,8 +61,19 @@ class Suggested_Book():
             namespace = {'xml_document': 'http://www.librarything.com/'}
 
             # set the new root to be a find for my newly created namespace
-            lt_book_root = lt_root.find('.//xml_document:title', namespace)
-            # print('Book Root:', lt_book_root.text)
+            lt_book_root = lt_root.find('.//xml_document:fieldList', namespace)
+            # print('Book Root:', lt_book_root.attrib["id"])
+            self.lt_id = lt_root.find(
+                './/xml_document:item', namespace).attrib["id"]
+            self.lt_haiku_summaries = list()
+
+            for field in lt_book_root:
+                if field.attrib["type"] == "57":
+                    print(field.attrib["displayName"])
+                    fact_root = field.findall(
+                        ".//{http://www.librarything.com/}fact")
+                    for fact in fact_root:
+                        print(fact.text.strip())
 
         except:
             print('The goodreads request was: ', goodreads_request)
