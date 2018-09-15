@@ -3,7 +3,8 @@ import json
 import requests
 import traceback
 # need to put a period before "keyword exclusion list" when ready to use this in the app again.
-from .keyword_exclusion_list import exclusion_keywords as exclusions
+from keyword_exclusion_list import exclusion_keywords as exclusions
+from keyword_map import keyword_map as keymap
 
 
 class Suggested_Book():
@@ -18,8 +19,12 @@ class Suggested_Book():
         title_format = book_title.replace(' ', '+')
         goodreads_request = "https://www.goodreads.com/book/title.xml?&key={0}&title={1}".format(
             gr_dev_key, title_format)
+        print(goodreads_request)
 
         try:
+            self.lt_haiku_summaries = list()
+            self.keywords = set()
+            self.lt_id = ''
             gr_response = requests.get(goodreads_request)
             gr_root = ET.fromstring(gr_response.content)
             gr_book_root = gr_root.find("book")
@@ -33,61 +38,72 @@ class Suggested_Book():
             self.publication_year = gr_book_root.find(
                 "publication_year").text
             self.gr_link = gr_book_root.find("link").text
-            self.keywords = list()
             if not gr_book_root.find("popular_shelves") is None:
                 for shelf in gr_book_root.find("popular_shelves").iter("shelf"):
                     if shelf.attrib["name"] not in exclusions:
                         try:
                             shelf.attrib["name"].encode('ascii')
-                            new_keyword = dict(
-                                [(shelf.attrib["name"], int(shelf.attrib["count"]))])
-                            self.keywords.append(new_keyword)
+                            print(shelf.attrib["name"])
+                            if shelf.attrib["name"] in keymap.keys():
+                                print(
+                                    f'Key is {shelf.attrib["name"]} and it was mapped to {keymap[shelf.attrib["name"]]}')
+
+                                new_keyword = keymap[shelf.attrib["name"]]
+                                self.keywords.add(new_keyword)
+                            else:
+                                self.keywords.add(shelf.attrib["name"])
+
                         except UnicodeEncodeError:
                             pass
 
-            lt_dev_key = config['LibraryThing_key']
-            librarything_request = 'https://www.librarything.com/services/rest/1.1/?method=librarything.ck.getwork&isbn={0}&apikey={1}'.format(
-                self.isbn, lt_dev_key)
+            if not self.isbn is None:
 
-            lt_response = requests.get(librarything_request)
-            lt_root = ET.fromstring(lt_response.content)
+                lt_dev_key = config['LibraryThing_key']
+                librarything_request = 'https://www.librarything.com/services/rest/1.1/?method=librarything.ck.getwork&isbn={0}&apikey={1}'.format(
+                    self.isbn, lt_dev_key)
 
-            # !!Prepare for some magic:
-            # https://stackoverflow.com/questions/37586536/lxml-doc-find-returning-none
+                print(librarything_request)
 
-            # According to the "Your target element is in the default namespace" answer in the SO link above, this is what I've done:
-            # Create a new dictionary that has an arbitrary key for naming the document and as its value, the "ltml xmlns" value from the xml document
-            namespace = {'xml_document': 'http://www.librarything.com/'}
+                lt_response = requests.get(librarything_request)
+                lt_root = ET.fromstring(lt_response.content)
 
-            # set the new root to be a find for my newly created namespace
-            lt_book_root = lt_root.find('.//xml_document:fieldList', namespace)
-            self.lt_id = lt_root.find(
-                './/xml_document:item', namespace).attrib["id"]
-            self.lt_haiku_summaries = list()
+                # !!Prepare for some magic:
+                # https://stackoverflow.com/questions/37586536/lxml-doc-find-returning-none
 
-            for field in lt_book_root:
-                if field.attrib["type"] == "57":
-                    fact_root = field.findall(
-                        ".//{http://www.librarything.com/}fact")
-                    for fact in fact_root:
-                        self.lt_haiku_summaries.append(fact.text[9:-4].strip())
+                # According to the "Your target element is in the default namespace" answer in the SO link above, this is what I've done:
+                # Create a new dictionary that has an arbitrary key for naming the document and as its value, the "ltml xmlns" value from the xml document
+                namespace = {'xml_document': 'http://www.librarything.com/'}
+
+                # set the new root to be a find for my newly created namespace
+                lt_book_root = lt_root.find(
+                    './/xml_document:fieldList', namespace)
+                self.lt_id = lt_root.find(
+                    './/xml_document:item', namespace).attrib["id"]
+
+                for field in lt_book_root:
+                    if field.attrib["type"] == "57":
+                        fact_root = field.findall(
+                            ".//{http://www.librarything.com/}fact")
+                        for fact in fact_root:
+                            self.lt_haiku_summaries.append(
+                                fact.text[9:-4].strip().replace('<br>', '\n'))
 
         except:
             print('The goodreads request was: ', goodreads_request)
             print('The librarything request was: ', librarything_request)
             traceback.print_exc()
 
-    # def __repr__(self):
-    #     print('Goodreads ID: ', self.gr_id)
-    #     print('ISBN: ', self.isbn)
-    #     print('ISBN13: ', self.isbn13)
-    #     print('Title: ', self.title)
-    #     print('Publication Year: ', self.publication_year)
-    #     print('Goodreads Link: ', self.gr_link)
-    #     print('Keywords: ', self.keywords)
-    #     print('LibraryThing ID: ', self.lt_id)
-    #     print('LibraryThing Haikus: ', self.lt_haiku_summaries)
+    def __repr__(self):
+        print('Goodreads ID: ', self.gr_id)
+        print('ISBN: ', self.isbn)
+        print('ISBN13: ', self.isbn13)
+        print('Title: ', self.title)
+        print('Publication Year: ', self.publication_year)
+        print('Goodreads Link: ', self.gr_link)
+        print('Keywords: ', self.keywords)
+        print('LibraryThing ID: ', self.lt_id)
+        print('LibraryThing Haikus: ', self.lt_haiku_summaries)
 
 
 if __name__ == '__main__':
-    print(Suggested_Book('Harry Potter'))
+    Suggested_Book('Hop on pop').__repr__()
