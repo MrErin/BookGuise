@@ -33,6 +33,7 @@ def find_fave(title_input):
         if not book_root.find("similar_books") is None:
             for book in book_root.find("similar_books"):
                 fave_book["similar_titles"].append(book.find("title").text)
+            fave_book["similar_titles"] = fave_book["similar_titles"][-3:]
         else:
             fave_book["similar_titles"].append("No similar titles")
 
@@ -41,7 +42,10 @@ def find_fave(title_input):
             print(fave_book)
         else:
             return fave_book
-
+    except AttributeError:
+        unicorn_message = f"Congratulations! You found a unicorn! The book \"{title_input}\" isn't in the system."
+        print(unicorn_message)
+        return(unicorn_message)
     except:
         print('The request was: ', goodreads_request)
 
@@ -49,8 +53,10 @@ def find_fave(title_input):
 
 
 if __name__ == "__main__":
-    find_fave('Hound of the Baskervilles')
+    # find_fave('Hound of the Baskervilles')
     # Tests not having an ISBN (because there are so many different editions of this one)
-    find_fave('The Sun Also Rises')
+    # find_fave('The Sun Also Rises')
     # Goodreads API automatically sends general requests to the first novel in the series. Yay!
-    find_fave('Dresden Files')
+    # find_fave('Dresden Files')
+    # Tests a book that doesn't exist
+    find_fave("my flubishness")
