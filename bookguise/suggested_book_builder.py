@@ -3,8 +3,8 @@ import json
 import requests
 import traceback
 # ! need to put a period before "keyword exclusion list" when ready to use this in the app again.
-from keyword_exclusion_list import exclusion_keywords as exclusions
-from keyword_map import keyword_map as keymap
+from .keyword_exclusion_list import exclusion_keywords as exclusions
+from .keyword_map import keyword_map as keymap
 
 
 class Suggested_Book():
@@ -38,7 +38,7 @@ class Suggested_Book():
                 self.isbn13 = gr_book_root.find("isbn13").text
             self.title = gr_book_root.find("title").text
             self.publication_year = gr_book_root.find(
-                "publication_year").text
+                "work").find("original_publication_year").text
             self.gr_link = gr_book_root.find("link").text
             for author in gr_book_root.find("authors").iter("author"):
                 if author.find("role").text is None:
@@ -49,7 +49,7 @@ class Suggested_Book():
             self.build_custom_excludes()
             if not gr_book_root.find("popular_shelves") is None:
                 for shelf in gr_book_root.find("popular_shelves").iter("shelf"):
-                    if shelf.attrib["name"] not in exclusions and shelf.attrib["name"] not in self.custom_excludes and int(shelf.attrib["count"]) > 1:
+                    if shelf.attrib["name"] not in exclusions and shelf.attrib["name"] not in self.custom_excludes and int(shelf.attrib["count"]) > 1 and not "series" in shelf.attrib["name"]:
                         try:
                             shelf.attrib["name"].encode('ascii')
                             # print(shelf.attrib["name"])
@@ -103,8 +103,8 @@ class Suggested_Book():
             traceback.print_exc()
 
     def build_custom_excludes(self):
+        self.custom_excludes.add(self.series_title.lower().replace(' ', '-'))
         self.author_full = self.author.lower().split(" ")
-        print(self.author_full)
         self.custom_excludes.add(
             f"{self.author_full[0]}-{self.author_full[1]}")
         self.custom_excludes.add(
@@ -160,22 +160,32 @@ class Suggested_Book():
             self.custom_excludes.add(f"{dash_n1}-{dash_n2}{dash_n3}")
             self.custom_excludes.add(f"{dash_n3}-{dash_n1}-{dash_n2}")
 
+        if self.series_title.lower().startswith("a "):
+            check_title = self.series_title[2:].lower().replace(' ', '-')
+            self.custom_excludes.add(check_title)
+        if self.series_title.lower().startswith("an "):
+            check_title = self.series_title[3:].lower().replace(' ', '-')
+            self.custom_excludes.add(check_title)
+        if self.series_title.lower().startswith("the "):
+            check_title = self.series_title[4:].lower().replace(' ', '-')
+            self.custom_excludes.add(check_title)
+
     # ! Need to comment the repr function out when running the app, for some reason
 
-    def __repr__(self):
-        print('Goodreads ID: ', self.gr_id)
-        print('ISBN: ', self.isbn)
-        print('ISBN13: ', self.isbn13)
-        print('Title: ', self.title)
-        print('Series Title: ', self.series_title)
-        print('Publication Year: ', self.publication_year)
-        print('Goodreads Link: ', self.gr_link)
-        print('Author: ', self.author)
-        print('Custom Keyword Exclusions: ', self.custom_excludes)
-        print('Keywords: ', self.keywords)
-        print('LibraryThing ID: ', self.lt_id)
-        print('LibraryThing Haikus: ', self.lt_haiku_summaries)
+    # def __repr__(self):
+    #     print('Goodreads ID: ', self.gr_id)
+    #     print('ISBN: ', self.isbn)
+    #     print('ISBN13: ', self.isbn13)
+    #     print('Title: ', self.title)
+    #     print('Series Title: ', self.series_title)
+    #     print('Publication Year: ', self.publication_year)
+    #     print('Goodreads Link: ', self.gr_link)
+    #     print('Author: ', self.author)
+    #     print('Custom Keyword Exclusions: ', self.custom_excludes)
+    #     print('Keywords: ', self.keywords)
+    #     print('LibraryThing ID: ', self.lt_id)
+    #     print('LibraryThing Haikus: ', self.lt_haiku_summaries)
 
 
 if __name__ == '__main__':
-    Suggested_Book('a game of thrones').__repr__()
+    Suggested_Book('the woman who rides like a man').__repr__()
