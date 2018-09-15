@@ -27,6 +27,12 @@
             <li>{{keyword}}</li>
             {% endfor %}
         </ul>
+        <h4>Haiku Summaries:</h4>
+        <ul>
+            {% for haiku in book.lt_haiku_summaries %}
+            <li>{{haiku}}</li>
+            {% endfor %}
+        </ul>
     </div>
     {% endfor %}
 

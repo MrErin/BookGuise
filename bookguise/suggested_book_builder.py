@@ -3,7 +3,7 @@ import json
 import requests
 import traceback
 # need to put a period before "keyword exclusion list" when ready to use this in the app again.
-from keyword_exclusion_list import exclusion_keywords as exclusions
+from .keyword_exclusion_list import exclusion_keywords as exclusions
 
 
 class Suggested_Book():
@@ -39,7 +39,6 @@ class Suggested_Book():
                     if shelf.attrib["name"] not in exclusions:
                         try:
                             shelf.attrib["name"].encode('ascii')
-                            # print(shelf.attrib["name"])
                             new_keyword = dict(
                                 [(shelf.attrib["name"], int(shelf.attrib["count"]))])
                             self.keywords.append(new_keyword)
@@ -62,34 +61,32 @@ class Suggested_Book():
 
             # set the new root to be a find for my newly created namespace
             lt_book_root = lt_root.find('.//xml_document:fieldList', namespace)
-            # print('Book Root:', lt_book_root.attrib["id"])
             self.lt_id = lt_root.find(
                 './/xml_document:item', namespace).attrib["id"]
             self.lt_haiku_summaries = list()
 
             for field in lt_book_root:
                 if field.attrib["type"] == "57":
-                    print(field.attrib["displayName"])
                     fact_root = field.findall(
                         ".//{http://www.librarything.com/}fact")
                     for fact in fact_root:
-                        print(fact.text.strip())
+                        self.lt_haiku_summaries.append(fact.text[9:-4].strip())
 
         except:
             print('The goodreads request was: ', goodreads_request)
             print('The librarything request was: ', librarything_request)
             traceback.print_exc()
 
-    def __repr__(self):
-        # print('Goodreads ID: ', self.gr_id)
-        # print('ISBN: ', self.isbn)
-        # print('ISBN13: ', self.isbn13)
-        # print('Title: ', self.title)
-        # print('Publication Year: ', self.publication_year)
-        # print('Goodreads Link: ', self.gr_link)
-        # print('Keywords: ', self.keywords)
-        print('LibraryThing ID: ', self.lt_id)
-        # pass
+    # def __repr__(self):
+    #     print('Goodreads ID: ', self.gr_id)
+    #     print('ISBN: ', self.isbn)
+    #     print('ISBN13: ', self.isbn13)
+    #     print('Title: ', self.title)
+    #     print('Publication Year: ', self.publication_year)
+    #     print('Goodreads Link: ', self.gr_link)
+    #     print('Keywords: ', self.keywords)
+    #     print('LibraryThing ID: ', self.lt_id)
+    #     print('LibraryThing Haikus: ', self.lt_haiku_summaries)
 
 
 if __name__ == '__main__':
