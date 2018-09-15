@@ -106,4 +106,4 @@ class Suggested_Book():
 
 
 if __name__ == '__main__':
-    Suggested_Book('Hop on pop').__repr__()
+    Suggested_Book('rebecca').__repr__()
