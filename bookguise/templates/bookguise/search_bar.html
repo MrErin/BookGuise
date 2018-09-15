@@ -12,11 +12,6 @@
     <ul>
         <li>{{fave_result.gr_id}}</li>
         <li>{{fave_result.title}}</li>
-        <ul>
-            {% for title in fave_result.similar_titles %}
-            <li>{{title}}</li>
-            {% endfor %}
-        </ul>
     </ul>
 </div>
 <div>
@@ -30,6 +25,12 @@
         <ul>
             {% for keyword in book.keywords %}
             <li>{{keyword}}</li>
+            {% endfor %}
+        </ul>
+        <h4>Haiku Summaries:</h4>
+        <ul>
+            {% for haiku in book.lt_haiku_summaries %}
+            <li>{{haiku}}</li>
             {% endfor %}
         </ul>
     </div>
