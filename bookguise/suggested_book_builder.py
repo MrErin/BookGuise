@@ -172,7 +172,7 @@ class Suggested_Book():
 
     # ! Need to comment the repr function out when running the app, for some reason
 
-    # def __repr__(self):
+    # def __str__(self):
     #     print('Goodreads ID: ', self.gr_id)
     #     print('ISBN: ', self.isbn)
     #     print('ISBN13: ', self.isbn13)
@@ -188,4 +188,4 @@ class Suggested_Book():
 
 
 if __name__ == '__main__':
-    Suggested_Book('the woman who rides like a man').__repr__()
+    Suggested_Book('the woman who rides like a man')

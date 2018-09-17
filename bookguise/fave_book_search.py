@@ -4,24 +4,39 @@ import requests
 import traceback
 
 
-def find_fave(title_input):
-    """Builds an API fetch request from a book title entered by a user into the search bar"""
+def build_gr_request(book_title):
+    """Builds the API fetch request to get data from the Goodreads API based on a user-entered book title"""
 
     with open('Data/DataFiles/config.json', 'r') as config_file:
         config = json.load(config_file)
 
     dev_key = config['Goodreads_key']
 
-    title_format = title_input.replace(' ', '+')
+    title_format = book_title.replace(' ', '+')
     goodreads_request = "https://www.goodreads.com/book/title.xml?&key={0}&title={1}".format(
         dev_key, title_format)
+    response = requests.get(goodreads_request)
+    root = ET.fromstring(response.content)
+    book_root = root.find("book")
+    print(goodreads_request)
+    return book_root
 
+
+def fave_book(book_title):
+    """Attempts to create a new fave book"""
+
+    book_root = build_gr_request(book_title)
+    fave_book = dict()
+    fave_book["gr_id"] = ""
+    fave_book["isbn"] = ""
+    fave_book["isbn13"] = ""
+    fave_book["work_id"] = ""
+    fave_book["title"] = ""
+    fave_book["author"] = ""
+    fave_book["cover"] = ""
+    fave_book["gr_link"] = ""
+    fave_book["similar_titles"] = list()
     try:
-        response = requests.get(goodreads_request)
-        root = ET.fromstring(response.content)
-        book_root = root.find("book")
-
-        fave_book = dict()
         fave_book["gr_id"] = book_root.find("id").text
         if not book_root.find("isbn") is None:
             fave_book["isbn"] = book_root.find("isbn").text
@@ -29,7 +44,11 @@ def find_fave(title_input):
             fave_book["isbn13"] = book_root.find("isbn13").text
         fave_book["work_id"] = book_root.find("work").find("id").text
         fave_book["title"] = book_root.find("title").text
-        fave_book["similar_titles"] = list()
+        for author in book_root.find("authors").iter("author"):
+            if author.find("role").text is None:
+                fave_book["author"] = author.find("name").text.strip()
+        fave_book["cover"] = book_root.find("image_url").text
+        fave_book["gr_link"] = book_root.find("url").text.strip()
         if not book_root.find("similar_books") is None:
             for book in book_root.find("similar_books"):
                 fave_book["similar_titles"].append(book.find("title").text)
@@ -38,25 +57,36 @@ def find_fave(title_input):
             fave_book["similar_titles"].append("No similar titles")
 
         if __name__ == '__main__':
-            print(goodreads_request)
-            print(fave_book)
+            print('Goodreads ID: ', fave_book["gr_id"])
+            print('ISBN: ', fave_book["isbn"])
+            print('ISBN-13: ', fave_book["isbn13"])
+            print('Goodreads Work ID: ', fave_book["work_id"])
+            print('Title: ', fave_book["title"])
+            print('Author: ', fave_book["author"])
+            print('Cover: ', fave_book["cover"])
+            print('Goodreads Link: ', fave_book["gr_link"])
+            print('Similar Titles: ', fave_book["similar_titles"])
         else:
             return fave_book
-    except AttributeError:
-        unicorn_message = f"Congratulations! You found a unicorn! The book \"{title_input}\" isn't in the system."
-        print(unicorn_message)
-        return(unicorn_message)
-    except:
-        print('The request was: ', goodreads_request)
 
+    except AttributeError:
+        unicorn_message = f"Congratulations! You found a unicorn! The book \"{book_title}\" isn't in the system."
+        if __name__ == '__main__':
+            print(unicorn_message)
+        else:
+            return(unicorn_message)
+    except:
         traceback.print_exc()
 
 
 if __name__ == "__main__":
-    # find_fave('Hound of the Baskervilles')
+    fave_book('Hound of the Baskervilles')
+    print("-------------------------")
     # Tests not having an ISBN (because there are so many different editions of this one)
-    # find_fave('The Sun Also Rises')
+    fave_book('The Sun Also Rises')
+    print("-------------------------")
     # Goodreads API automatically sends general requests to the first novel in the series. Yay!
-    # find_fave('Dresden Files')
+    fave_book('Dresden Files')
+    print("-------------------------")
     # Tests a book that doesn't exist
-    find_fave("my flubishness")
+    fave_book("my flubishness")
