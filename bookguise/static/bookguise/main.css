@@ -79,3 +79,8 @@ h6 {
 .fave-result {
     border-bottom: 1px solid #D6D6D6;
 }
+
+.fiddly {
+    justify-content: center;
+    align-items: center;
+}

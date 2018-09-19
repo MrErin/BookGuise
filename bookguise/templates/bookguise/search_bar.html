@@ -10,16 +10,16 @@
 {% if fave_result %}
 <h2 class="centered">Your Favorite Book:</h2>
 <div class="wrapper fave-result">
-    <div class="wrapper card centered fave-book">
+    <div class="wrapper centered fave-book">
         <div class="wrapper centered fave-img">
             <a href="{{fave_result.gr_link}}" target="_blank">
                 <img src="{{fave_result.cover}}" alt="Favorite Book Cover"></a>
         </div>
-        <div>
-            <a href="{{fave_result.gr_link}}" target="_blank">
-                <h4>{{fave_result.title}}</h4>
-            </a>
-            <h5>{{fave_result.author}}</h5>
+        <div class="wrapper">
+            <div class="fiddly">
+                <p class="fave-text"><a href="{{fave_result.gr_link}}" target="_blank">{{fave_result.title}}</a></p>
+                <p class="fave-text">{{fave_result.author}}</p>
+            </div>
         </div>
     </div>
 </div>
