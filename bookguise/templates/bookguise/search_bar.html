@@ -16,6 +16,8 @@
 
     <div class="result-side">
         {% if fave_result %}
+        {% if fave_result.title %}
+
         <h2 class="centered">Your Favorite Book:</h2>
         <div class="wrapper fave-result">
             <div class="wrapper centered fave-book">
@@ -31,6 +33,12 @@
                 </div>
             </div>
         </div>
+        {% else %}
+        <div>
+            <p class="centered">{{fave_result.unicorn_message}}</p>
+            <p class="centered">Please join the masquerade by searching again!</p>
+        </div>
+        {% endif %}
         {% endif %}
     </div>
 </div>

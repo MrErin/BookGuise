@@ -49,8 +49,6 @@ def fave_book(book_title):
                 fave_book["author"] = author.find("name").text.strip()
         fave_book["cover"] = book_root.find("image_url").text
         fave_book["gr_link"] = book_root.find("url").text.strip()
-        fave_book["description"] = book_root.find(
-            "description").text.strip().replace('<br /><br />', ' ').replace('<b>', '').replace('</b>', '').replace('<i>', '').replace('</i>', '')
         if not book_root.find("similar_books") is None:
             for book in book_root.find("similar_books"):
                 fave_book["similar_titles"].append(book.find("title").text)
@@ -67,30 +65,32 @@ def fave_book(book_title):
             print('Author: ', fave_book["author"])
             print('Cover: ', fave_book["cover"])
             print('Goodreads Link: ', fave_book["gr_link"])
-            print('Description: ', fave_book["description"])
             print('Similar Titles: ', fave_book["similar_titles"])
         else:
             return fave_book
 
     except AttributeError:
-        unicorn_message = f"Congratulations! You found a unicorn! The book \"{book_title}\" isn't in the system."
+        unicorn_message = f'Congratulations! You found a unicorn! The book "{book_title}" isn\'t in the system.'
+        fave_book["unicorn_message"] = unicorn_message
         if __name__ == '__main__':
             print(unicorn_message)
         else:
-            return(unicorn_message)
+            return(fave_book)
     except:
         traceback.print_exc()
 
 
 if __name__ == "__main__":
-    # fave_book('Hound of the Baskervilles')
+    fave_book('Hound of the Baskervilles')
     print("-------------------------")
     # Tests not having an ISBN (because there are so many different editions of this one)
-    # fave_book('The Sun Also Rises')
+    fave_book('The Sun Also Rises')
     print("-------------------------")
     # Goodreads API automatically sends general requests to the first novel in the series. Yay!
-    # fave_book('Dresden Files')
+    fave_book('Dresden Files')
+    print("-------------------------")
+    # Checks a book whose similar books are bizarre
+    fave_book("the art of war")
     print("-------------------------")
     # Tests a book that doesn't exist
-    # fave_book("my flubishness")
-    fave_book("the art of war")
+    fave_book("my flubishness")
