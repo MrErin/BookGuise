@@ -2,6 +2,11 @@ import xml.etree.ElementTree as ET
 import json
 import requests
 import traceback
+import random
+
+from .style_choices import style_colors as colors
+from .style_choices import style_images as masks
+
 # ! need to put a period before "keyword exclusion list" when ready to use this in the app again.
 from .keyword_exclusion_list import exclusion_keywords as exclusions
 from .keyword_map import keyword_map as keymap
@@ -25,6 +30,8 @@ class Suggested_Book():
             self.lt_haiku_summaries = list()
             self.keywords = set()
             self.custom_excludes = set()
+            self.bg_color = random.choice(colors)
+            self.bg_mask = random.choice(masks)
             self.lt_id = ''
             self.series_title = ''
             gr_response = requests.get(goodreads_request)
@@ -170,21 +177,21 @@ class Suggested_Book():
             check_title = self.series_title[4:].lower().replace(' ', '-')
             self.custom_excludes.add(check_title)
 
-    # ! Need to comment the repr function out when running the app, for some reason
+        # ! Need to comment the repr function out when running the app, for some reason
 
-    # def __str__(self):
-    #     print('Goodreads ID: ', self.gr_id)
-    #     print('ISBN: ', self.isbn)
-    #     print('ISBN13: ', self.isbn13)
-    #     print('Title: ', self.title)
-    #     print('Series Title: ', self.series_title)
-    #     print('Publication Year: ', self.publication_year)
-    #     print('Goodreads Link: ', self.gr_link)
-    #     print('Author: ', self.author)
-    #     print('Custom Keyword Exclusions: ', self.custom_excludes)
-    #     print('Keywords: ', self.keywords)
-    #     print('LibraryThing ID: ', self.lt_id)
-    #     print('LibraryThing Haikus: ', self.lt_haiku_summaries)
+        # def __str__(self):
+        #     print('Goodreads ID: ', self.gr_id)
+        #     print('ISBN: ', self.isbn)
+        #     print('ISBN13: ', self.isbn13)
+        #     print('Title: ', self.title)
+        #     print('Series Title: ', self.series_title)
+        #     print('Publication Year: ', self.publication_year)
+        #     print('Goodreads Link: ', self.gr_link)
+        #     print('Author: ', self.author)
+        #     print('Custom Keyword Exclusions: ', self.custom_excludes)
+        #     print('Keywords: ', self.keywords)
+        #     print('LibraryThing ID: ', self.lt_id)
+        #     print('LibraryThing Haikus: ', self.lt_haiku_summaries)
 
 
 if __name__ == '__main__':

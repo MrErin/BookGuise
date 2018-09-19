@@ -34,8 +34,8 @@
 <div class="mystery-books grid">
     {% for book in suggested_books %}
     <div class="wrapper card column">
-        <div class="wrapper centered book-bg">
-            <img class="book-img centered" src="../../static/img/mask1.png" alt="Mask for the mysterious book">
+        <div class="wrapper centered book-bg" style="background-color:{{book.bg_color}}">
+            <img class="book-img centered" src="../../static/img/{{book.bg_mask}}" alt="Mask for the mysterious book">
         </div>
         <div class="wrapper column">
             <h4>Published in {{book.publication_year}}</h4>
