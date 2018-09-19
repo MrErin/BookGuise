@@ -98,7 +98,7 @@ class Suggested_Book():
                             ".//{http://www.librarything.com/}fact")
                         for fact in fact_root:
                             self.lt_haiku_summaries.append(
-                                fact.text[9:-4].strip().replace('<br>', '/'))
+                                fact.text[9:-4].strip().replace('<br>', '/').replace('<p>', '/').replace('</p>', '/'))
 
         except:
             print('The goodreads request was: ', goodreads_request)
