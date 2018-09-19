@@ -10,6 +10,7 @@
 .centered {
     margin: 0 auto;
     text-align: center;
+    display: block;
 }
 
 .mystery-books {
@@ -68,4 +69,13 @@ h4,
 h5,
 h6 {
     font-family: 'Old Standard TT', serif;
+}
+
+.fave-book {
+    width: auto;
+    margin: 0 auto;
+}
+
+.fave-result {
+    border-bottom: 1px solid #D6D6D6;
 }
