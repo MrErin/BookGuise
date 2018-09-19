@@ -38,13 +38,18 @@
             <img class="book-img centered" src="../../static/img/{{book.bg_mask}}" alt="Mask for the mysterious book">
         </div>
         <div class="wrapper column">
-            <h4>Published in {{book.publication_year}}</h4>
-            {% comment %} {% if len(book.lt_haiku_summaries) > 0 %} {% endcomment %}
-            <h4>Haiku Summaries:</h4>
+            <h4 class="centered">Published in {{book.publication_year}}</h4>
+            <hr width="50%">
+            {% if not book.lt_haiku_summaries is empty %}
+            <h4 class="centered">Haiku Summaries:</h4>
             {% for haiku in book.lt_haiku_summaries %}
-            <p>{{haiku}}</p>
+            <p class="centered">{{haiku}}</p>
+            <hr width="50%">
             {% endfor %}
-            {% comment %} {% endif %} {% endcomment %}
+
+            <hr width="50%">
+            {% endif %}
+            <h4 class="centered">Keywords:</h4>
             <p>
                 {% for keyword in book.keywords %}
                 {{keyword}},
