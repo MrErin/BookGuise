@@ -34,20 +34,21 @@
 <div class="mystery-books grid">
     {% for book in suggested_books %}
     <div class="wrapper card column">
-        <div class="wrapper centered book-bg" style="background-color:{{book.bg_color}}">
-            <img class="book-img centered" src="../../static/img/{{book.bg_mask}}" alt="Mask for the mysterious book">
-        </div>
+        <a href="{{book.gr_link}}">
+            <div class="wrapper centered book-bg" style="background-color:{{book.bg_color}}">
+                <img class="book-img centered" src="../../static/img/{{book.bg_mask}}" alt="Mask for the mysterious book">
+            </div>
+        </a>
         <div class="wrapper column">
             <h4 class="centered">Published in {{book.publication_year}}</h4>
             <hr width="50%">
-            {% if not book.lt_haiku_summaries is empty %}
+            {% if book.lt_haiku_summaries %}
             <h4 class="centered">Haiku Summaries:</h4>
             {% for haiku in book.lt_haiku_summaries %}
             <p class="centered">{{haiku}}</p>
             <hr width="50%">
             {% endfor %}
 
-            <hr width="50%">
             {% endif %}
             <h4 class="centered">Keywords:</h4>
             <p>

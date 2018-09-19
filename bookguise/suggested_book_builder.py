@@ -59,10 +59,7 @@ class Suggested_Book():
                     if shelf.attrib["name"] not in exclusions and shelf.attrib["name"] not in self.custom_excludes and int(shelf.attrib["count"]) > 1 and not "series" in shelf.attrib["name"]:
                         try:
                             shelf.attrib["name"].encode('ascii')
-                            # print(shelf.attrib["name"])
                             if shelf.attrib["name"] in keymap.keys():
-                                # print(
-                                #     f'Key is {shelf.attrib["name"]} and it was mapped to {keymap[shelf.attrib["name"]]}')
 
                                 new_keyword = keymap[shelf.attrib["name"]]
                                 self.keywords.add(new_keyword)
@@ -102,7 +99,8 @@ class Suggested_Book():
                             ".//{http://www.librarything.com/}fact")
                         for fact in fact_root:
                             self.lt_haiku_summaries.append(
-                                fact.text[9:-4].strip().replace('<br>', '\n'))
+                                fact.text[9:-4].strip().replace('<br>', '/'))
+                    print(len(self.lt_haiku_summaries))
 
         except:
             print('The goodreads request was: ', goodreads_request)
