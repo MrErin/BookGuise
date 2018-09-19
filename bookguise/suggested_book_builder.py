@@ -4,10 +4,9 @@ import requests
 import traceback
 import random
 
+# ! need to put a period before "keyword exclusion list" when ready to use this in the app again.
 from .style_choices import style_colors as colors
 from .style_choices import style_images as masks
-
-# ! need to put a period before "keyword exclusion list" when ready to use this in the app again.
 from .keyword_exclusion_list import exclusion_keywords as exclusions
 from .keyword_map import keyword_map as keymap
 
@@ -100,7 +99,6 @@ class Suggested_Book():
                         for fact in fact_root:
                             self.lt_haiku_summaries.append(
                                 fact.text[9:-4].strip().replace('<br>', '/'))
-                    print(len(self.lt_haiku_summaries))
 
         except:
             print('The goodreads request was: ', goodreads_request)
@@ -114,7 +112,7 @@ class Suggested_Book():
         try:
             self.custom_excludes.add(
                 f"{self.author_full[0]}")
-            if len(self.author) == 2:
+            if len(self.author_full) == 2:
                 self.custom_excludes.add(
                     f"{self.author_full[0]}-{self.author_full[1]}")
                 self.custom_excludes.add(
@@ -145,10 +143,14 @@ class Suggested_Book():
                     dash_on = self.author_full[2].replace('.', '-')[:-1]
                     self.custom_excludes.add(strip_on)
                     self.custom_excludes.add(dash_on)
-                    self.custom_excludes.add(f"{strip_on}-{self.author_full[1]}")
-                    self.custom_excludes.add(f"{dash_on}-{self.author_full[1]}")
-                    self.custom_excludes.add(f"{self.author_full[1]}-{strip_on}")
-                    self.custom_excludes.add(f"{self.author_full[1]}-{dash_on}")
+                    self.custom_excludes.add(
+                        f"{strip_on}-{self.author_full[1]}")
+                    self.custom_excludes.add(
+                        f"{dash_on}-{self.author_full[1]}")
+                    self.custom_excludes.add(
+                        f"{self.author_full[1]}-{strip_on}")
+                    self.custom_excludes.add(
+                        f"{self.author_full[1]}-{dash_on}")
                 strip_n1 = self.author_full[0].replace('.', '')
                 strip_n2 = self.author_full[1].replace('.', '')
                 strip_n3 = self.author_full[2].replace('.', '')
@@ -180,22 +182,20 @@ class Suggested_Book():
         except IndexError:
             print("index error; oops")
 
-        # ! Need to comment the repr function out when running the app, for some reason
-
-        # def __str__(self):
-        #     print('Goodreads ID: ', self.gr_id)
-        #     print('ISBN: ', self.isbn)
-        #     print('ISBN13: ', self.isbn13)
-        #     print('Title: ', self.title)
-        #     print('Series Title: ', self.series_title)
-        #     print('Publication Year: ', self.publication_year)
-        #     print('Goodreads Link: ', self.gr_link)
-        #     print('Author: ', self.author)
-        #     print('Custom Keyword Exclusions: ', self.custom_excludes)
-        #     print('Keywords: ', self.keywords)
-        #     print('LibraryThing ID: ', self.lt_id)
-        #     print('LibraryThing Haikus: ', self.lt_haiku_summaries)
+    # def __str__(self):
+    #     print('Goodreads ID: ', self.gr_id)
+    #     print('ISBN: ', self.isbn)
+    #     print('ISBN13: ', self.isbn13)
+    #     print('Title: ', self.title)
+    #     print('Series Title: ', self.series_title)
+    #     print('Publication Year: ', self.publication_year)
+    #     print('Goodreads Link: ', self.gr_link)
+    #     print('Author: ', self.author)
+    #     print('Custom Keyword Exclusions: ', self.custom_excludes)
+    #     print('Keywords: ', self.keywords)
+    #     print('LibraryThing ID: ', self.lt_id)
+    #     print('LibraryThing Haikus: ', self.lt_haiku_summaries)
 
 
 if __name__ == '__main__':
-    Suggested_Book('the woman who rides like a man')
+    Suggested_Book('the hobbit').__str__()
