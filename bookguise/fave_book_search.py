@@ -52,7 +52,7 @@ def fave_book(book_title):
         if not book_root.find("similar_books") is None:
             for book in book_root.find("similar_books"):
                 fave_book["similar_titles"].append(book.find("title").text)
-            fave_book["similar_titles"] = fave_book["similar_titles"][-5:]
+            # fave_book["similar_titles"] = fave_book["similar_titles"][-5:]
         else:
             fave_book["similar_titles"].append("No similar titles")
 
