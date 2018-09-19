@@ -49,10 +49,12 @@ def fave_book(book_title):
                 fave_book["author"] = author.find("name").text.strip()
         fave_book["cover"] = book_root.find("image_url").text
         fave_book["gr_link"] = book_root.find("url").text.strip()
+        fave_book["description"] = book_root.find(
+            "description").text.strip().replace('<br /><br />', ' ').replace('<b>', '').replace('</b>', '').replace('<i>', '').replace('</i>', '')
         if not book_root.find("similar_books") is None:
             for book in book_root.find("similar_books"):
                 fave_book["similar_titles"].append(book.find("title").text)
-            fave_book["similar_titles"] = fave_book["similar_titles"][-3:]
+            fave_book["similar_titles"] = fave_book["similar_titles"][-2:]
         else:
             fave_book["similar_titles"].append("No similar titles")
 
@@ -65,6 +67,7 @@ def fave_book(book_title):
             print('Author: ', fave_book["author"])
             print('Cover: ', fave_book["cover"])
             print('Goodreads Link: ', fave_book["gr_link"])
+            print('Description: ', fave_book["description"])
             print('Similar Titles: ', fave_book["similar_titles"])
         else:
             return fave_book

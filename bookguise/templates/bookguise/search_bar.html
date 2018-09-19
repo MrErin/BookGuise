@@ -9,34 +9,53 @@
 </div>
 {% if fave_result %}
 <div>
-    <ul>
-        <li>{{fave_result.gr_id}}</li>
-        <li>{{fave_result.title}}</li>
-    </ul>
-</div>
-<div>
-    {% if suggested_books %}
-    <h2>Results</h2>
-    {% for book in suggested_books %}
     <div>
-        <p>Published in: {{book.publication_year}}</p>
-        <a href="{{book.gr_link}}">Don't click this link unless you want to ruin your suprise.</a>
-        <h4>Keywords:</h4>
-        <ul>
-            {% for keyword in book.keywords %}
-            <li>{{keyword}}</li>
-            {% endfor %}
-        </ul>
-        <h4>Haiku Summaries:</h4>
-        <ul>
-            {% for haiku in book.lt_haiku_summaries %}
-            <li>{{haiku}}</li>
-            {% endfor %}
-        </ul>
+        <div class="fave-book">
+            <div>
+                <div>
+                    <a href="{{fave_result.gr_link}}" target="_blank">
+                        <img src="{{fave_result.cover}}" alt="Favorite Book Cover"></a>
+                </div>
+                <div>
+                    <div>
+                        <a href="{{fave_result.gr_link}}" target="_blank">
+                            <h4>{{fave_result.title}}</h4>
+                        </a>
+                        <h5>{{fave_result.author}}</h5>
+                    </div>
+                </div>
+            </div>
+        </div>
     </div>
-    {% endfor %}
-
-    {% endif %}
 </div>
 {% endif %}
+{% if suggested_books %}
+<h2>Results</h2>
+<div class="mystery-books grid">
+    {% for book in suggested_books %}
+    <div class="wrapper card column">
+        <div class="wrapper centered book-bg">
+            <img class="book-img centered" src="../../static/img/mask1.png" alt="Mask for the mysterious book">
+        </div>
+        <div class="wrapper column">
+            <h4>Published in {{book.publication_year}}</h4>
+            {% comment %} {% if len(book.lt_haiku_summaries) > 0 %} {% endcomment %}
+            <h4>Haiku Summaries:</h4>
+            {% for haiku in book.lt_haiku_summaries %}
+            <p>{{haiku}}</p>
+            {% endfor %}
+            {% comment %} {% endif %} {% endcomment %}
+            <p>
+                {% for keyword in book.keywords %}
+                {{keyword}},
+                {% endfor %}
+            </p>
+        </div>
+
+    </div>
+    {% endfor %}
+</div>
+{% endif %}
+
+
 {% endblock %}
