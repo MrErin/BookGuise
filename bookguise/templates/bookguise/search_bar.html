@@ -1,42 +1,84 @@
 {% block content %}
-<div>
-    <form id="fave_book_search_form" method="post" action="{% url 'bookguise:fave_book_search' %}">
-        {% csrf_token %}
-        <input type="text" size="50" name="title_input" value="" id="title_input" />
-        <input type="submit" value="Search" name="submit" />
-        <br />
-    </form>
+<div class="top">
+
+    <h1 class="centered">Welcome to BookGuise</h1>
+    <p class="centered">What's the title of your favorite book?</p>
 </div>
-{% if fave_result %}
-<div>
-    <ul>
-        <li>{{fave_result.gr_id}}</li>
-        <li>{{fave_result.title}}</li>
-    </ul>
+<div class="search-grid">
+    <div class="search-side centered">
+        <form id="fave_book_search_form" method="post" action="{% url 'bookguise:fave_book_search' %}">
+            {% csrf_token %}
+            <input type="text" size="50" name="title_input" value="" id="title_input" />
+            <input type="submit" value="Search" name="submit" />
+            <br />
+        </form>
+    </div>
+
+    <div class="result-side">
+        {% if fave_result %}
+        {% if fave_result.title %}
+
+        <h2 class="centered">Your Favorite Book:</h2>
+        <div class="wrapper fave-result">
+            <div class="wrapper centered fave-book">
+                <div class="wrapper centered fave-img">
+                    <a href="{{fave_result.gr_link}}" target="_blank">
+                        <img src="{{fave_result.cover}}" alt="Favorite Book Cover"></a>
+                </div>
+                <div class="wrapper">
+                    <div class="fiddly">
+                        <p class="fave-text"><a href="{{fave_result.gr_link}}" target="_blank">{{fave_result.title}}</a></p>
+                        <p class="fave-text">{{fave_result.author}}</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+        {% else %}
+        <div>
+            <p class="centered">{{fave_result.unicorn_message}}</p>
+            <p class="centered">Please join the masquerade by searching again!</p>
+        </div>
+        {% endif %}
+        {% endif %}
+    </div>
 </div>
-<div>
-    {% if suggested_books %}
-    <h2>Results</h2>
+{% if suggested_books %}
+<h2 class="centered">Your Mysterious Recommendations:</h2>
+<div class="mystery-books grid centered">
     {% for book in suggested_books %}
-    <div>
-        <p>Published in: {{book.publication_year}}</p>
-        <a href="{{book.gr_link}}">Don't click this link unless you want to ruin your suprise.</a>
-        <h4>Keywords:</h4>
-        <ul>
-            {% for keyword in book.keywords %}
-            <li>{{keyword}}</li>
-            {% endfor %}
-        </ul>
-        <h4>Haiku Summaries:</h4>
-        <ul>
+    <div class="wrapper card column">
+        <a href="{{book.gr_link}}" target="_blank">
+            <div class="wrapper centered book-bg" style="background-color:{{book.bg_color}}">
+                <img class="book-img centered" src="../../static/img/{{book.bg_mask}}" alt="Mask for the mysterious book">
+            </div>
+        </a>
+        <div class="wrapper column">
+            <h4 class="centered">Published in {{book.publication_year}}</h4>
+            <hr width="50%">
+            {% if book.lt_haiku_summaries %}
+            <h4 class="centered">Haiku Summaries:</h4>
             {% for haiku in book.lt_haiku_summaries %}
-            <li>{{haiku}}</li>
+            <p class="centered">{{haiku}}</p>
+            <hr width="50%">
             {% endfor %}
-        </ul>
+
+            {% endif %}
+            {% if book.keywords %}
+            <h4 class="centered">Keywords:</h4>
+            <p>
+                {% for keyword in book.keywords %}
+                {{keyword}},
+                {% endfor %}
+            </p>
+            {% else %}
+            <p>No keywords?! What a mysterious book!</p>
+            {% endif %}
+        </div>
+
     </div>
     {% endfor %}
-
-    {% endif %}
 </div>
 {% endif %}
+
+
 {% endblock %}
