@@ -83,13 +83,14 @@ def fave_book(book_title):
 
 
 if __name__ == "__main__":
-    fave_book('Hound of the Baskervilles')
+    # fave_book('Hound of the Baskervilles')
     print("-------------------------")
     # Tests not having an ISBN (because there are so many different editions of this one)
-    fave_book('The Sun Also Rises')
+    # fave_book('The Sun Also Rises')
     print("-------------------------")
     # Goodreads API automatically sends general requests to the first novel in the series. Yay!
-    fave_book('Dresden Files')
+    # fave_book('Dresden Files')
     print("-------------------------")
     # Tests a book that doesn't exist
-    fave_book("my flubishness")
+    # fave_book("my flubishness")
+    fave_book("the art of war")

@@ -1,29 +1,39 @@
 {% block content %}
-<div>
-    <form id="fave_book_search_form" method="post" action="{% url 'bookguise:fave_book_search' %}">
-        {% csrf_token %}
-        <input type="text" size="50" name="title_input" value="" id="title_input" />
-        <input type="submit" value="Search" name="submit" />
-        <br />
-    </form>
+<div class="top">
+
+    <h1 class="centered">Welcome to BookGuise</h1>
+    <p class="centered">What's the title of your favorite book?</p>
 </div>
-{% if fave_result %}
-<h2 class="centered">Your Favorite Book:</h2>
-<div class="wrapper fave-result">
-    <div class="wrapper centered fave-book">
-        <div class="wrapper centered fave-img">
-            <a href="{{fave_result.gr_link}}" target="_blank">
-                <img src="{{fave_result.cover}}" alt="Favorite Book Cover"></a>
-        </div>
-        <div class="wrapper">
-            <div class="fiddly">
-                <p class="fave-text"><a href="{{fave_result.gr_link}}" target="_blank">{{fave_result.title}}</a></p>
-                <p class="fave-text">{{fave_result.author}}</p>
+<div class="search-grid">
+    <div class="search-side centered">
+        <form id="fave_book_search_form" method="post" action="{% url 'bookguise:fave_book_search' %}">
+            {% csrf_token %}
+            <input type="text" size="50" name="title_input" value="" id="title_input" />
+            <input type="submit" value="Search" name="submit" />
+            <br />
+        </form>
+    </div>
+
+    <div class="result-side">
+        {% if fave_result %}
+        <h2 class="centered">Your Favorite Book:</h2>
+        <div class="wrapper fave-result">
+            <div class="wrapper centered fave-book">
+                <div class="wrapper centered fave-img">
+                    <a href="{{fave_result.gr_link}}" target="_blank">
+                        <img src="{{fave_result.cover}}" alt="Favorite Book Cover"></a>
+                </div>
+                <div class="wrapper">
+                    <div class="fiddly">
+                        <p class="fave-text"><a href="{{fave_result.gr_link}}" target="_blank">{{fave_result.title}}</a></p>
+                        <p class="fave-text">{{fave_result.author}}</p>
+                    </div>
+                </div>
             </div>
         </div>
+        {% endif %}
     </div>
 </div>
-{% endif %}
 {% if suggested_books %}
 <h2 class="centered">Your Mysterious Recommendations:</h2>
 <div class="mystery-books grid centered">

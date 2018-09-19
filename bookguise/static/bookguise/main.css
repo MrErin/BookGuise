@@ -74,6 +74,9 @@ h6 {
 .fave-book {
     width: auto;
     margin: 0 auto;
+    background-color: #D6D6D6;
+    color: #0D0D0D;
+    border-radius: 3px;
 }
 
 .fave-result {
@@ -83,4 +86,21 @@ h6 {
 .fiddly {
     justify-content: center;
     align-items: center;
+}
+
+a {
+    color: #0D0D0D;
+}
+
+.search-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(50%, 1fr));
+    grid-gap: 20px;
+    align-items: stretch;
+}
+
+.top {
+    margin: 15px;
+    padding: 15px;
+    line-height: 3em;
 }
