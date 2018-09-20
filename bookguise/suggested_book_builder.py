@@ -40,9 +40,9 @@ class Suggested_Book():
 
             self.gr_id = gr_book_root.find("id").text
             if not gr_book_root.find("isbn") is None:
-                self.isbn = gr_book_root.find("isbn").text.strip()
+                self.isbn = gr_book_root.find("isbn").text
             if not gr_book_root.find("isbn13") is None:
-                self.isbn13 = gr_book_root.find("isbn13").text.strip()
+                self.isbn13 = gr_book_root.find("isbn13").text
             self.title = gr_book_root.find("title").text
             self.publication_year = gr_book_root.find(
                 "work").find("original_publication_year").text
