@@ -56,7 +56,7 @@ def fave_book(book_title):
                     fave_book["similar_titles"].append(book.find("title").text)
                 except:
                     pass
-            fave_book["similar_titles"] = fave_book["similar_titles"][-5:]
+            fave_book["similar_titles"] = fave_book["similar_titles"][-6:]
         else:
             fave_book["similar_titles"].append("No similar titles")
 
