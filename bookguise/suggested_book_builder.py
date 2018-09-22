@@ -33,6 +33,7 @@ class Suggested_Book():
             self.bg_mask = random.choice(masks)
             self.lt_id = ''
             self.series_title = ''
+            self.author = ''
             gr_response = requests.get(goodreads_request)
             gr_root = ET.fromstring(gr_response.content)
             gr_book_root = gr_root.find("book")
@@ -66,6 +67,8 @@ class Suggested_Book():
                                 self.keywords.add(shelf.attrib["name"])
 
                         except UnicodeEncodeError:
+                            pass
+                        except UnicodeDecodeError:
                             pass
 
             if not self.isbn is None:
@@ -107,80 +110,100 @@ class Suggested_Book():
 
     def build_custom_excludes(self):
         self.custom_excludes.add(self.series_title.lower().replace(' ', '-'))
-        self.author_full = self.author.lower().split(" ")
+        if not self.author is None:
+            self.author_full = self.author.lower().split(" ")
+            print("Self_author_full:", self.author_full)
 
-        try:
-            self.custom_excludes.add(
-                f"{self.author_full[0]}")
-            if len(self.author_full) == 2:
+            try:
                 self.custom_excludes.add(
-                    f"{self.author_full[0]}-{self.author_full[1]}")
-                self.custom_excludes.add(
-                    f"{self.author_full[1]}-{self.author_full[0]}")
-                self.custom_excludes.add(
-                    f"{self.author_full[1]}")
-            if "." in self.author_full[0]:
-                strip_fn = self.author_full[0].replace('.', '')
-                dash_fn = self.author_full[0].replace('.', '-')[:-1]
-                self.custom_excludes.add(strip_fn)
-                self.custom_excludes.add(dash_fn)
-                self.custom_excludes.add(f"{strip_fn}-{self.author_full[1]}")
-                self.custom_excludes.add(f"{dash_fn}-{self.author_full[1]}")
-                self.custom_excludes.add(f"{self.author_full[1]}-{strip_fn}")
-                self.custom_excludes.add(f"{self.author_full[1]}-{dash_fn}")
-            if "." in self.author_full[1]:
-                strip_ln = self.author_full[1].replace('.', '')
-                dash_ln = self.author_full[1].replace('.', '-')[:-1]
-                self.custom_excludes.add(strip_ln)
-                self.custom_excludes.add(dash_ln)
-                self.custom_excludes.add(f"{strip_ln}-{self.author_full[1]}")
-                self.custom_excludes.add(f"{dash_ln}-{self.author_full[1]}")
-                self.custom_excludes.add(f"{self.author_full[1]}-{strip_ln}")
-                self.custom_excludes.add(f"{self.author_full[1]}-{dash_ln}")
-            if len(self.author_full) > 2:
-                if "." in self.author_full[2]:
-                    strip_on = self.author_full[2].replace('.', '')
-                    dash_on = self.author_full[2].replace('.', '-')[:-1]
-                    self.custom_excludes.add(strip_on)
-                    self.custom_excludes.add(dash_on)
+                    f"{self.author_full[0]}")
+                if len(self.author_full) == 2:
                     self.custom_excludes.add(
-                        f"{strip_on}-{self.author_full[1]}")
+                        f"{self.author_full[0]}-{self.author_full[1]}")
                     self.custom_excludes.add(
-                        f"{dash_on}-{self.author_full[1]}")
+                        f"{self.author_full[1]}-{self.author_full[0]}")
                     self.custom_excludes.add(
-                        f"{self.author_full[1]}-{strip_on}")
+                        f"{self.author_full[1]}")
+                if "." in self.author_full[0]:
+                    strip_fn = self.author_full[0].replace('.', '')
+                    dash_fn = self.author_full[0].replace('.', '-')[:-1]
+                    self.custom_excludes.add(strip_fn)
+                    self.custom_excludes.add(dash_fn)
                     self.custom_excludes.add(
-                        f"{self.author_full[1]}-{dash_on}")
-                strip_n1 = self.author_full[0].replace('.', '')
-                strip_n2 = self.author_full[1].replace('.', '')
-                strip_n3 = self.author_full[2].replace('.', '')
-                dash_n1 = self.author_full[0].replace('.', '-')
-                dash_n2 = self.author_full[1].replace('.', '-')
-                dash_n3 = self.author_full[2].replace('.', '-')
-                self.custom_excludes.add(
-                    f"{self.author_full[0]}-{self.author_full[1]}-{self.author_full[2]}")
-                self.custom_excludes.add(self.author_full[2])
-                self.custom_excludes.add(
-                    f"{self.author_full[0]}-{self.author_full[2]}")
-                self.custom_excludes.add(
-                    f"{self.author_full[2]}-{self.author_full[0]}")
-                self.custom_excludes.add(f"{strip_n1}-{strip_n2}-{strip_n3}")
-                self.custom_excludes.add(f"{strip_n3}-{strip_n1}-{strip_n2}")
-                self.custom_excludes.add(f"{dash_n1}-{dash_n2}-{dash_n3}")
-                self.custom_excludes.add(f"{dash_n1}-{dash_n2}{dash_n3}")
-                self.custom_excludes.add(f"{dash_n3}-{dash_n1}-{dash_n2}")
+                        f"{strip_fn}-{self.author_full[1]}")
+                    self.custom_excludes.add(
+                        f"{dash_fn}-{self.author_full[1]}")
+                    self.custom_excludes.add(
+                        f"{self.author_full[1]}-{strip_fn}")
+                    self.custom_excludes.add(
+                        f"{self.author_full[1]}-{dash_fn}")
+                if "." in self.author_full[1]:
+                    strip_ln = self.author_full[1].replace('.', '')
+                    dash_ln = self.author_full[1].replace('.', '-')[:-1]
+                    self.custom_excludes.add(strip_ln)
+                    self.custom_excludes.add(dash_ln)
+                    self.custom_excludes.add(
+                        f"{strip_ln}-{self.author_full[1]}")
+                    self.custom_excludes.add(
+                        f"{dash_ln}-{self.author_full[1]}")
+                    self.custom_excludes.add(
+                        f"{self.author_full[1]}-{strip_ln}")
+                    self.custom_excludes.add(
+                        f"{self.author_full[1]}-{dash_ln}")
+                if len(self.author_full) > 2:
+                    if "." in self.author_full[2]:
+                        strip_on = self.author_full[2].replace('.', '')
+                        dash_on = self.author_full[2].replace('.', '-')[:-1]
+                        self.custom_excludes.add(strip_on)
+                        self.custom_excludes.add(dash_on)
+                        self.custom_excludes.add(
+                            f"{strip_on}-{self.author_full[1]}")
+                        self.custom_excludes.add(
+                            f"{dash_on}-{self.author_full[1]}")
+                        self.custom_excludes.add(
+                            f"{self.author_full[1]}-{strip_on}")
+                        self.custom_excludes.add(
+                            f"{self.author_full[1]}-{dash_on}")
+                    strip_n1 = self.author_full[0].replace('.', '')
+                    strip_n2 = self.author_full[1].replace('.', '')
+                    strip_n3 = self.author_full[2].replace('.', '')
+                    dash_n1 = self.author_full[0].replace('.', '-')
+                    dash_n2 = self.author_full[1].replace('.', '-')
+                    dash_n3 = self.author_full[2].replace('.', '-')
+                    self.custom_excludes.add(
+                        f"{self.author_full[0]}-{self.author_full[1]}-{self.author_full[2]}")
+                    self.custom_excludes.add(self.author_full[2])
+                    self.custom_excludes.add(
+                        f"{self.author_full[0]}-{self.author_full[2]}")
+                    self.custom_excludes.add(
+                        f"{self.author_full[2]}-{self.author_full[0]}")
+                    self.custom_excludes.add(
+                        f"{strip_n1}-{strip_n2}-{strip_n3}")
+                    self.custom_excludes.add(
+                        f"{strip_n3}-{strip_n1}-{strip_n2}")
+                    self.custom_excludes.add(f"{dash_n1}-{dash_n2}-{dash_n3}")
+                    self.custom_excludes.add(f"{dash_n1}-{dash_n2}{dash_n3}")
+                    self.custom_excludes.add(f"{dash_n3}-{dash_n1}-{dash_n2}")
 
-            if self.series_title.lower().startswith("a "):
-                check_title = self.series_title[2:].lower().replace(' ', '-')
-                self.custom_excludes.add(check_title)
-            if self.series_title.lower().startswith("an "):
-                check_title = self.series_title[3:].lower().replace(' ', '-')
-                self.custom_excludes.add(check_title)
-            if self.series_title.lower().startswith("the "):
-                check_title = self.series_title[4:].lower().replace(' ', '-')
-                self.custom_excludes.add(check_title)
-        except IndexError:
-            print("index error; oops")
+                if self.series_title.lower().startswith("a "):
+                    check_title = self.series_title[2:].lower().replace(
+                        ' ', '-')
+                    self.custom_excludes.add(check_title)
+                if self.series_title.lower().startswith("an "):
+                    check_title = self.series_title[3:].lower().replace(
+                        ' ', '-')
+                    self.custom_excludes.add(check_title)
+                if self.series_title.lower().startswith("the "):
+                    check_title = self.series_title[4:].lower().replace(
+                        ' ', '-')
+                    self.custom_excludes.add(check_title)
+            except IndexError:
+                print("index error; oops")
+                traceback.print_exc()
+
+            except:
+                print("other exception")
+                traceback.print_exc()
 
     # def __str__(self):
     #     print('Goodreads ID: ', self.gr_id)
@@ -198,4 +221,4 @@ class Suggested_Book():
 
 
 if __name__ == '__main__':
-    Suggested_Book('the hobbit').__str__()
+    Suggested_Book('greyhaven').__str__()

@@ -51,8 +51,12 @@ def fave_book(book_title):
         fave_book["gr_link"] = book_root.find("url").text.strip()
         if not book_root.find("similar_books") is None:
             for book in book_root.find("similar_books"):
-                fave_book["similar_titles"].append(book.find("title").text)
-            fave_book["similar_titles"] = fave_book["similar_titles"][-5:]
+                try:
+                    book.find("title").text.encode('ascii')
+                    fave_book["similar_titles"].append(book.find("title").text)
+                except:
+                    pass
+            fave_book["similar_titles"] = fave_book["similar_titles"][-6:]
         else:
             fave_book["similar_titles"].append("No similar titles")
 
@@ -81,16 +85,18 @@ def fave_book(book_title):
 
 
 if __name__ == "__main__":
-    fave_book('Hound of the Baskervilles')
-    print("-------------------------")
-    # Tests not having an ISBN (because there are so many different editions of this one)
-    fave_book('The Sun Also Rises')
-    print("-------------------------")
-    # Goodreads API automatically sends general requests to the first novel in the series. Yay!
-    fave_book('Dresden Files')
-    print("-------------------------")
-    # Checks a book whose similar books are bizarre
-    fave_book("the art of war")
-    print("-------------------------")
-    # Tests a book that doesn't exist
-    fave_book("my flubishness")
+    # fave_book('Hound of the Baskervilles')
+    # print("-------------------------")
+    # # Tests not having an ISBN (because there are so many different editions of this one)
+    # fave_book('The Sun Also Rises')
+    # print("-------------------------")
+    # # Goodreads API automatically sends general requests to the first novel in the series. Yay!
+    # fave_book('Dresden Files')
+    # print("-------------------------")
+    # # Checks a book whose similar books are bizarre
+    # fave_book("the art of war")
+    # print("-------------------------")
+    # # Tests a book that doesn't exist
+    # fave_book("my flubishness")
+    # print("-------------------------")
+    fave_book("the color purple")
